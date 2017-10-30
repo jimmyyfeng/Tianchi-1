@@ -1,0 +1,944 @@
+layer {
+  name: "data"
+  type: "Python"
+  top: "data"
+  top: "label"
+  python_param {
+    module: "data.ClsDataLayer"
+    layer: "ClsDataLayer"
+    param_str: "{\'phase\': \'train\', \'augument\': True, \'ratio\': 2, \'batch_size\': 4, \'data_root\': \'/home/x/dcsb/Tianchi_caffe/\'}"
+  }
+}
+layer {
+  name: "Convolution1"
+  type: "Convolution"
+  bottom: "data"
+  top: "Convolution1"
+  convolution_param {
+    num_output: 32
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "BatchNorm1"
+  type: "BatchNorm"
+  bottom: "Convolution1"
+  top: "BatchNorm1"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "ReLU1"
+  type: "ReLU"
+  bottom: "BatchNorm1"
+  top: "ReLU1"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution2"
+  type: "Convolution"
+  bottom: "ReLU1"
+  top: "Convolution2"
+  convolution_param {
+    num_output: 32
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "BatchNorm2"
+  type: "BatchNorm"
+  bottom: "Convolution2"
+  top: "BatchNorm2"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "conv1"
+  type: "ReLU"
+  bottom: "BatchNorm2"
+  top: "conv1"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution3"
+  type: "Convolution"
+  bottom: "conv1"
+  top: "Convolution3"
+  convolution_param {
+    num_output: 8
+    pad: 0
+    kernel_size: 1
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "Convolution4"
+  type: "Convolution"
+  bottom: "conv1"
+  top: "Convolution4"
+  convolution_param {
+    num_output: 16
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "BatchNorm3"
+  type: "BatchNorm"
+  bottom: "Convolution4"
+  top: "BatchNorm3"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "ReLU2"
+  type: "ReLU"
+  bottom: "BatchNorm3"
+  top: "ReLU2"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution5"
+  type: "Convolution"
+  bottom: "ReLU2"
+  top: "Convolution5"
+  convolution_param {
+    num_output: 8
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "Convolution6"
+  type: "Convolution"
+  bottom: "conv1"
+  top: "Convolution6"
+  convolution_param {
+    num_output: 16
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "BatchNorm4"
+  type: "BatchNorm"
+  bottom: "Convolution6"
+  top: "BatchNorm4"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "ReLU3"
+  type: "ReLU"
+  bottom: "BatchNorm4"
+  top: "ReLU3"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution7"
+  type: "Convolution"
+  bottom: "ReLU3"
+  top: "Convolution7"
+  convolution_param {
+    num_output: 8
+    pad: 2
+    kernel_size: 5
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "Pooling1"
+  type: "Pooling"
+  bottom: "conv1"
+  top: "Pooling1"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "Convolution8"
+  type: "Convolution"
+  bottom: "Pooling1"
+  top: "Convolution8"
+  convolution_param {
+    num_output: 8
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "Concat1"
+  type: "Concat"
+  bottom: "Convolution3"
+  bottom: "Convolution5"
+  bottom: "Convolution7"
+  bottom: "Convolution8"
+  top: "Concat1"
+}
+layer {
+  name: "BatchNorm5"
+  type: "BatchNorm"
+  bottom: "Concat1"
+  top: "BatchNorm5"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "downsample1"
+  type: "ReLU"
+  bottom: "BatchNorm5"
+  top: "downsample1"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution9"
+  type: "Convolution"
+  bottom: "downsample1"
+  top: "Convolution9"
+  convolution_param {
+    num_output: 64
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "BatchNorm6"
+  type: "BatchNorm"
+  bottom: "Convolution9"
+  top: "BatchNorm6"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "ReLU4"
+  type: "ReLU"
+  bottom: "BatchNorm6"
+  top: "ReLU4"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution10"
+  type: "Convolution"
+  bottom: "ReLU4"
+  top: "Convolution10"
+  convolution_param {
+    num_output: 64
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "BatchNorm7"
+  type: "BatchNorm"
+  bottom: "Convolution10"
+  top: "BatchNorm7"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "conv2"
+  type: "ReLU"
+  bottom: "BatchNorm7"
+  top: "conv2"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution11"
+  type: "Convolution"
+  bottom: "conv2"
+  top: "Convolution11"
+  convolution_param {
+    num_output: 16
+    pad: 0
+    kernel_size: 1
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "Convolution12"
+  type: "Convolution"
+  bottom: "conv2"
+  top: "Convolution12"
+  convolution_param {
+    num_output: 32
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "BatchNorm8"
+  type: "BatchNorm"
+  bottom: "Convolution12"
+  top: "BatchNorm8"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "ReLU5"
+  type: "ReLU"
+  bottom: "BatchNorm8"
+  top: "ReLU5"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution13"
+  type: "Convolution"
+  bottom: "ReLU5"
+  top: "Convolution13"
+  convolution_param {
+    num_output: 16
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "Convolution14"
+  type: "Convolution"
+  bottom: "conv2"
+  top: "Convolution14"
+  convolution_param {
+    num_output: 32
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "BatchNorm9"
+  type: "BatchNorm"
+  bottom: "Convolution14"
+  top: "BatchNorm9"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "ReLU6"
+  type: "ReLU"
+  bottom: "BatchNorm9"
+  top: "ReLU6"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution15"
+  type: "Convolution"
+  bottom: "ReLU6"
+  top: "Convolution15"
+  convolution_param {
+    num_output: 16
+    pad: 2
+    kernel_size: 5
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "Pooling2"
+  type: "Pooling"
+  bottom: "conv2"
+  top: "Pooling2"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "Convolution16"
+  type: "Convolution"
+  bottom: "Pooling2"
+  top: "Convolution16"
+  convolution_param {
+    num_output: 16
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "Concat2"
+  type: "Concat"
+  bottom: "Convolution11"
+  bottom: "Convolution13"
+  bottom: "Convolution15"
+  bottom: "Convolution16"
+  top: "Concat2"
+}
+layer {
+  name: "BatchNorm10"
+  type: "BatchNorm"
+  bottom: "Concat2"
+  top: "BatchNorm10"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "downsample2"
+  type: "ReLU"
+  bottom: "BatchNorm10"
+  top: "downsample2"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution17"
+  type: "Convolution"
+  bottom: "downsample2"
+  top: "Convolution17"
+  convolution_param {
+    num_output: 64
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "BatchNorm11"
+  type: "BatchNorm"
+  bottom: "Convolution17"
+  top: "BatchNorm11"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "ReLU7"
+  type: "ReLU"
+  bottom: "BatchNorm11"
+  top: "ReLU7"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution18"
+  type: "Convolution"
+  bottom: "ReLU7"
+  top: "Convolution18"
+  convolution_param {
+    num_output: 64
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "BatchNorm12"
+  type: "BatchNorm"
+  bottom: "Convolution18"
+  top: "BatchNorm12"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "conv3"
+  type: "ReLU"
+  bottom: "BatchNorm12"
+  top: "conv3"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution19"
+  type: "Convolution"
+  bottom: "conv3"
+  top: "Convolution19"
+  convolution_param {
+    num_output: 16
+    pad: 0
+    kernel_size: 1
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "Convolution20"
+  type: "Convolution"
+  bottom: "conv3"
+  top: "Convolution20"
+  convolution_param {
+    num_output: 32
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "BatchNorm13"
+  type: "BatchNorm"
+  bottom: "Convolution20"
+  top: "BatchNorm13"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "ReLU8"
+  type: "ReLU"
+  bottom: "BatchNorm13"
+  top: "ReLU8"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution21"
+  type: "Convolution"
+  bottom: "ReLU8"
+  top: "Convolution21"
+  convolution_param {
+    num_output: 16
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "Convolution22"
+  type: "Convolution"
+  bottom: "conv3"
+  top: "Convolution22"
+  convolution_param {
+    num_output: 32
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "BatchNorm14"
+  type: "BatchNorm"
+  bottom: "Convolution22"
+  top: "BatchNorm14"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "ReLU9"
+  type: "ReLU"
+  bottom: "BatchNorm14"
+  top: "ReLU9"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution23"
+  type: "Convolution"
+  bottom: "ReLU9"
+  top: "Convolution23"
+  convolution_param {
+    num_output: 16
+    pad: 2
+    kernel_size: 5
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "Pooling3"
+  type: "Pooling"
+  bottom: "conv3"
+  top: "Pooling3"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "Convolution24"
+  type: "Convolution"
+  bottom: "Pooling3"
+  top: "Convolution24"
+  convolution_param {
+    num_output: 16
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "Concat3"
+  type: "Concat"
+  bottom: "Convolution19"
+  bottom: "Convolution21"
+  bottom: "Convolution23"
+  bottom: "Convolution24"
+  top: "Concat3"
+}
+layer {
+  name: "BatchNorm15"
+  type: "BatchNorm"
+  bottom: "Concat3"
+  top: "BatchNorm15"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "downsample3"
+  type: "ReLU"
+  bottom: "BatchNorm15"
+  top: "downsample3"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution25"
+  type: "Convolution"
+  bottom: "downsample3"
+  top: "Convolution25"
+  convolution_param {
+    num_output: 64
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "BatchNorm16"
+  type: "BatchNorm"
+  bottom: "Convolution25"
+  top: "BatchNorm16"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "ReLU10"
+  type: "ReLU"
+  bottom: "BatchNorm16"
+  top: "ReLU10"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution26"
+  type: "Convolution"
+  bottom: "ReLU10"
+  top: "Convolution26"
+  convolution_param {
+    num_output: 64
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "BatchNorm17"
+  type: "BatchNorm"
+  bottom: "Convolution26"
+  top: "BatchNorm17"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "conv4"
+  type: "ReLU"
+  bottom: "BatchNorm17"
+  top: "conv4"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "conv5"
+  type: "Convolution"
+  bottom: "conv4"
+  top: "conv5"
+  convolution_param {
+    num_output: 16
+    pad: 0
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "bn5"
+  type: "BatchNorm"
+  bottom: "conv5"
+  top: "bn5"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "re5"
+  type: "ReLU"
+  bottom: "bn5"
+  top: "re5"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "fc6"
+  type: "InnerProduct"
+  bottom: "re5"
+  top: "fc6"
+  inner_product_param {
+    num_output: 150
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "re6"
+  type: "ReLU"
+  bottom: "fc6"
+  top: "re6"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "fc7"
+  type: "InnerProduct"
+  bottom: "re6"
+  top: "fc7"
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "fc7"
+  bottom: "label"
+  top: "loss"
+}

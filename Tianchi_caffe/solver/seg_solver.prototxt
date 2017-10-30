@@ -1,0 +1,16 @@
+train_net: "/home/x/dcsb/Tianchi_caffe/prototxt/segmentation_train.prototxt"
+base_lr: 0.001
+momentum: 0.9
+weight_decay: 0.00005
+lr_policy: "multistep"
+stepvalue:2400
+stepvalue:3600
+stepvalue:4800
+stepvalue:6000
+stepvalue:7200
+gamma: 0.5
+display: 300
+max_iter: 10000
+snapshot: 150
+type:"ADAM"
+snapshot_prefix: "snashots/test_seg"

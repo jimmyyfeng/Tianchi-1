@@ -1,0 +1,1023 @@
+layer {
+  name: "data"
+  type: "Input"
+  top: "data"
+  top:"label"
+  input_param {
+   shape:{dim:4 dim:1 dim:64 dim:64 dim:64}
+   shape:{dim:4 dim:1 dim:64 dim:64 dim:64}
+  }
+}
+layer {
+  name: "Convolution1"
+  type: "Convolution"
+  bottom: "data"
+  top: "Convolution1"
+  convolution_param {
+    num_output: 32
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm1"
+  type: "BatchNorm"
+  bottom: "Convolution1"
+  top: "BatchNorm1"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale1"
+  type: "Scale"
+  bottom: "BatchNorm1"
+  top: "Scale1"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "conv0"
+  type: "ReLU"
+  bottom: "Scale1"
+  top: "conv0"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution2"
+  type: "Convolution"
+  bottom: "conv0"
+  top: "Convolution2"
+  convolution_param {
+    num_output: 64
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm2"
+  type: "BatchNorm"
+  bottom: "Convolution2"
+  top: "BatchNorm2"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale2"
+  type: "Scale"
+  bottom: "BatchNorm2"
+  top: "Scale2"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "ReLU1"
+  type: "ReLU"
+  bottom: "Scale2"
+  top: "ReLU1"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution3"
+  type: "Convolution"
+  bottom: "conv0"
+  top: "Convolution3"
+  convolution_param {
+    num_output: 64
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm3"
+  type: "BatchNorm"
+  bottom: "Convolution3"
+  top: "BatchNorm3"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale3"
+  type: "Scale"
+  bottom: "BatchNorm3"
+  top: "Scale3"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "ReLU2"
+  type: "ReLU"
+  bottom: "Scale3"
+  top: "ReLU2"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution4"
+  type: "Convolution"
+  bottom: "conv0"
+  top: "Convolution4"
+  convolution_param {
+    num_output: 64
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm4"
+  type: "BatchNorm"
+  bottom: "Convolution4"
+  top: "BatchNorm4"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale4"
+  type: "Scale"
+  bottom: "BatchNorm4"
+  top: "Scale4"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "ReLU3"
+  type: "ReLU"
+  bottom: "Scale4"
+  top: "ReLU3"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Concat1"
+  type: "Concat"
+  bottom: "ReLU2"
+  bottom: "ReLU3"
+  top: "Concat1"
+}
+layer {
+  name: "Convolution5"
+  type: "Convolution"
+  bottom: "Concat1"
+  top: "Convolution5"
+  convolution_param {
+    num_output: 64
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm5"
+  type: "BatchNorm"
+  bottom: "Convolution5"
+  top: "BatchNorm5"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale5"
+  type: "Scale"
+  bottom: "BatchNorm5"
+  top: "Scale5"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "ReLU4"
+  type: "ReLU"
+  bottom: "Scale5"
+  top: "ReLU4"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "down1"
+  type: "Eltwise"
+  bottom: "ReLU1"
+  bottom: "ReLU4"
+  top: "down1"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "Convolution6"
+  type: "Convolution"
+  bottom: "down1"
+  top: "Convolution6"
+  convolution_param {
+    num_output: 128
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm6"
+  type: "BatchNorm"
+  bottom: "Convolution6"
+  top: "BatchNorm6"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale6"
+  type: "Scale"
+  bottom: "BatchNorm6"
+  top: "Scale6"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "ReLU5"
+  type: "ReLU"
+  bottom: "Scale6"
+  top: "ReLU5"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution7"
+  type: "Convolution"
+  bottom: "down1"
+  top: "Convolution7"
+  convolution_param {
+    num_output: 128
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm7"
+  type: "BatchNorm"
+  bottom: "Convolution7"
+  top: "BatchNorm7"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale7"
+  type: "Scale"
+  bottom: "BatchNorm7"
+  top: "Scale7"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "ReLU6"
+  type: "ReLU"
+  bottom: "Scale7"
+  top: "ReLU6"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution8"
+  type: "Convolution"
+  bottom: "down1"
+  top: "Convolution8"
+  convolution_param {
+    num_output: 128
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm8"
+  type: "BatchNorm"
+  bottom: "Convolution8"
+  top: "BatchNorm8"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale8"
+  type: "Scale"
+  bottom: "BatchNorm8"
+  top: "Scale8"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "ReLU7"
+  type: "ReLU"
+  bottom: "Scale8"
+  top: "ReLU7"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Concat2"
+  type: "Concat"
+  bottom: "ReLU6"
+  bottom: "ReLU7"
+  top: "Concat2"
+}
+layer {
+  name: "Convolution9"
+  type: "Convolution"
+  bottom: "Concat2"
+  top: "Convolution9"
+  convolution_param {
+    num_output: 128
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm9"
+  type: "BatchNorm"
+  bottom: "Convolution9"
+  top: "BatchNorm9"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale9"
+  type: "Scale"
+  bottom: "BatchNorm9"
+  top: "Scale9"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "ReLU8"
+  type: "ReLU"
+  bottom: "Scale9"
+  top: "ReLU8"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "down2"
+  type: "Eltwise"
+  bottom: "ReLU5"
+  bottom: "ReLU8"
+  top: "down2"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "Convolution10"
+  type: "Convolution"
+  bottom: "down2"
+  top: "Convolution10"
+  convolution_param {
+    num_output: 128
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm10"
+  type: "BatchNorm"
+  bottom: "Convolution10"
+  top: "BatchNorm10"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale10"
+  type: "Scale"
+  bottom: "BatchNorm10"
+  top: "Scale10"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "ReLU9"
+  type: "ReLU"
+  bottom: "Scale10"
+  top: "ReLU9"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution11"
+  type: "Convolution"
+  bottom: "down2"
+  top: "Convolution11"
+  convolution_param {
+    num_output: 128
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm11"
+  type: "BatchNorm"
+  bottom: "Convolution11"
+  top: "BatchNorm11"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale11"
+  type: "Scale"
+  bottom: "BatchNorm11"
+  top: "Scale11"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "ReLU10"
+  type: "ReLU"
+  bottom: "Scale11"
+  top: "ReLU10"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution12"
+  type: "Convolution"
+  bottom: "down2"
+  top: "Convolution12"
+  convolution_param {
+    num_output: 128
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm12"
+  type: "BatchNorm"
+  bottom: "Convolution12"
+  top: "BatchNorm12"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale12"
+  type: "Scale"
+  bottom: "BatchNorm12"
+  top: "Scale12"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "ReLU11"
+  type: "ReLU"
+  bottom: "Scale12"
+  top: "ReLU11"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Concat3"
+  type: "Concat"
+  bottom: "ReLU10"
+  bottom: "ReLU11"
+  top: "Concat3"
+}
+layer {
+  name: "Convolution13"
+  type: "Convolution"
+  bottom: "Concat3"
+  top: "Convolution13"
+  convolution_param {
+    num_output: 128
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm13"
+  type: "BatchNorm"
+  bottom: "Convolution13"
+  top: "BatchNorm13"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale13"
+  type: "Scale"
+  bottom: "BatchNorm13"
+  top: "Scale13"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "ReLU12"
+  type: "ReLU"
+  bottom: "Scale13"
+  top: "ReLU12"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "down3"
+  type: "Eltwise"
+  bottom: "ReLU9"
+  bottom: "ReLU12"
+  top: "down3"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "Convolution14"
+  type: "Convolution"
+  bottom: "down3"
+  top: "Convolution14"
+  convolution_param {
+    num_output: 128
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm14"
+  type: "BatchNorm"
+  bottom: "Convolution14"
+  top: "BatchNorm14"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale14"
+  type: "Scale"
+  bottom: "BatchNorm14"
+  top: "Scale14"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "ReLU13"
+  type: "ReLU"
+  bottom: "Scale14"
+  top: "ReLU13"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution15"
+  type: "Convolution"
+  bottom: "down3"
+  top: "Convolution15"
+  convolution_param {
+    num_output: 128
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm15"
+  type: "BatchNorm"
+  bottom: "Convolution15"
+  top: "BatchNorm15"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale15"
+  type: "Scale"
+  bottom: "BatchNorm15"
+  top: "Scale15"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "ReLU14"
+  type: "ReLU"
+  bottom: "Scale15"
+  top: "ReLU14"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Convolution16"
+  type: "Convolution"
+  bottom: "down3"
+  top: "Convolution16"
+  convolution_param {
+    num_output: 128
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm16"
+  type: "BatchNorm"
+  bottom: "Convolution16"
+  top: "BatchNorm16"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale16"
+  type: "Scale"
+  bottom: "BatchNorm16"
+  top: "Scale16"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "ReLU15"
+  type: "ReLU"
+  bottom: "Scale16"
+  top: "ReLU15"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Concat4"
+  type: "Concat"
+  bottom: "ReLU14"
+  bottom: "ReLU15"
+  top: "Concat4"
+}
+layer {
+  name: "Convolution17"
+  type: "Convolution"
+  bottom: "Concat4"
+  top: "Convolution17"
+  convolution_param {
+    num_output: 128
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm17"
+  type: "BatchNorm"
+  bottom: "Convolution17"
+  top: "BatchNorm17"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale17"
+  type: "Scale"
+  bottom: "BatchNorm17"
+  top: "Scale17"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "ReLU16"
+  type: "ReLU"
+  bottom: "Scale17"
+  top: "ReLU16"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "down4"
+  type: "Eltwise"
+  bottom: "ReLU13"
+  bottom: "ReLU16"
+  top: "down4"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "Deconvolution1"
+  type: "Deconvolution"
+  bottom: "down4"
+  top: "Deconvolution1"
+  convolution_param {
+    num_output: 128
+    kernel_size: 2
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm18"
+  type: "BatchNorm"
+  bottom: "Deconvolution1"
+  top: "BatchNorm18"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale18"
+  type: "Scale"
+  bottom: "BatchNorm18"
+  top: "Scale18"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "up3"
+  type: "ReLU"
+  bottom: "Scale18"
+  top: "up3"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "cat3"
+  type: "Concat"
+  bottom: "down3"
+  bottom: "up3"
+  top: "cat3"
+}
+layer {
+  name: "Deconvolution2"
+  type: "Deconvolution"
+  bottom: "cat3"
+  top: "Deconvolution2"
+  convolution_param {
+    num_output: 128
+    kernel_size: 2
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm19"
+  type: "BatchNorm"
+  bottom: "Deconvolution2"
+  top: "BatchNorm19"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale19"
+  type: "Scale"
+  bottom: "BatchNorm19"
+  top: "Scale19"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "up2"
+  type: "ReLU"
+  bottom: "Scale19"
+  top: "up2"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "cat2"
+  type: "Concat"
+  bottom: "down2"
+  bottom: "up2"
+  top: "cat2"
+}
+layer {
+  name: "Deconvolution3"
+  type: "Deconvolution"
+  bottom: "cat2"
+  top: "Deconvolution3"
+  convolution_param {
+    num_output: 128
+    kernel_size: 2
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm20"
+  type: "BatchNorm"
+  bottom: "Deconvolution3"
+  top: "BatchNorm20"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale20"
+  type: "Scale"
+  bottom: "BatchNorm20"
+  top: "Scale20"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "up1"
+  type: "ReLU"
+  bottom: "Scale20"
+  top: "up1"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "cat1"
+  type: "Concat"
+  bottom: "down1"
+  bottom: "up1"
+  top: "cat1"
+}
+layer {
+  name: "Deconvolution4"
+  type: "Deconvolution"
+  bottom: "cat1"
+  top: "Deconvolution4"
+  convolution_param {
+    num_output: 32
+    kernel_size: 2
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "BatchNorm21"
+  type: "BatchNorm"
+  bottom: "Deconvolution4"
+  top: "BatchNorm21"
+  batch_norm_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "Scale21"
+  type: "Scale"
+  bottom: "BatchNorm21"
+  top: "Scale21"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "up0"
+  type: "ReLU"
+  bottom: "Scale21"
+  top: "up0"
+  relu_param {
+    engine: CAFFE
+  }
+}
+layer {
+  name: "score"
+  type: "Convolution"
+  bottom: "up0"
+  top: "score"
+  convolution_param {
+    num_output: 1
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "probs"
+  type: "Sigmoid"
+  bottom: "score"
+  top: "probs"
+}
+layer {
+  name: "probs_"
+  type: "Flatten"
+  bottom: "probs"
+  top: "probs_"
+}
+layer {
+  name: "label_"
+  type: "Flatten"
+  bottom: "label"
+  top: "label_"
+}
+layer {
+  name: "loss"
+  type: "Python"
+  bottom: "probs_"
+  bottom: "label_"
+  top:"loss"
+  loss_weight:1
+  python_param {
+    module: "DiceLossByBatch"
+    layer: "DiceLossLayer"
+
+  }
+}

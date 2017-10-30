@@ -1,0 +1,16 @@
+train_net: "/home/x/dcsb/Tianchi_caffe/prototxt/multi_seg.prototxt"
+base_lr: 0.001
+momentum: 0.9
+weight_decay: 0.0001
+lr_policy: "multistep"
+stepvalue:1000
+stepvalue:2000
+stepvalue:3000
+stepvalue:4000
+stepvalue:5000
+gamma: 0.5
+display: 300
+max_iter: 10000
+snapshot: 150
+type:"ADAM"
+snapshot_prefix: "snashots/multi_seg"

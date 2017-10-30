@@ -1,0 +1,15 @@
+train_net: "/home/x/dcsb/Tianchi_caffe/prototxt/tiny_cls.prototxt"
+base_lr: 0.001
+momentum: 0.9
+weight_decay: 0.0001
+lr_policy: "multistep"
+stepvalue:1500
+stepvalue:3000
+stepvalue:4500
+stepvalue:6000
+gamma: 0.5
+display: 32
+max_iter: 100000
+snapshot: 64
+type:"ADAM"
+snapshot_prefix: "snashots/chenyun_tiny_cls"
